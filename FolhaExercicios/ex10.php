@@ -3,7 +3,7 @@
 <body>
     <?php
 
-    $pastas = array(
+    $materias = array(
         "bsn" => array(
             "3a Fase" => array(
                 "desenvWeb",
@@ -35,7 +35,7 @@
     }
 
   
-    criarArvore($pastas);
+    criarArvore($materias);
     ?>
 </body>
 </html>
