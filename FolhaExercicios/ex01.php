@@ -1,5 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex01</title>
+    <style>
+        body {
+            background-color: black;
+            font-family: monospace;
+            color: white;
+            text-align: center;
+            }
+    </style>
+</head>
 <body>
     <form method="POST">
         Valor 1: <input type="number" name="valor1"><br>
@@ -24,5 +37,6 @@
         }
     }
     ?>
+    
 </body>
 </html>
