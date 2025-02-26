@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <style>
+        body { background-color: black; font-family: monospace; color: white; text-align: center; }
+        form { background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 10px; display: inline-block; text-align: left; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: none; border-radius: 5px; }
+        button { background: white; border: none; padding: 10px; cursor: pointer; }
+    </style>
+    <script>
+        function enviarPorGET() {
+            const form = document.forms[0];
+            const params = new URLSearchParams(new FormData(form)).toString();
+            window.location.href = "processa.php?" + params;
+        }
+    </script>
+</head>
+<body>
+    <h2>Formulário</h2>
+    <form action="processa.php" method="post">
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+        <label>Telefone:</label>
+        <input type="number" name="telefone" required>
+        <label>E-mail:</label>
+        <input type="email" name="email" required>
+        <label>Mensagem:</label>
+        <textarea name="mensagem" required></textarea>
+        <button type="submit">Enviar por POST</button>
+    </form>
+
+    <h3>Enviar por GET:</h3>
+    <button onclick="enviarPorGET()">Enviar por GET</button>
+</body>
+</html>
