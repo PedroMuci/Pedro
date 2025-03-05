@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de PDF</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { width: 50%; margin: auto; }
+        .sortable { list-style: none; padding: 0; }
+        .sortable li { background: #f4f4f4; margin: 5px; padding: 10px; cursor: move; border: 1px solid #ccc; position: relative; }
+        .text-input { width: 100%; padding: 5px; margin-top: 5px; display: block; border: 2px solid transparent; }
+        .align-buttons { position: absolute; top: -30px; right: 5px; }
+        button { margin: 5px; padding: 8px; cursor: pointer; }
+        .selected { border: 2px solid black; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gerador de PDF</h2>
+        <button onclick="addElement('h1')">Criar Título</button>
+        <button onclick="addElement('h2')">Criar Subtítulo</button>
+        <button onclick="addElement('p')">Criar Texto</button>
+        <ul id="sortable" class="sortable"></ul>
+        <button onclick="generatePDF()">Gerar PDF</button>
+    </div>
+    <form id="pdfForm" action="processa.php" method="POST" style="display: none;">
+        <textarea name="content" id="pdfContent"></textarea>
+    </form>
+    <script>
+        function addElement(tag) {
+            let newItem = $("<li data-tag='" + tag + "' data-align='left'></li>");
+            let input = $("<input type='text' class='text-input' placeholder='Digite aqui...'>");
+            let alignButtons = $(`
+                <div class='align-buttons'>
+                    <button onclick="alignText(this, 'left')">Esquerda</button>
+                    <button onclick="alignText(this, 'center')">Centralizado</button>
+                    <button onclick="alignText(this, 'right')">Direita</button>
+                    <button onclick="alignText(this, 'justify')">Justificado</button>
+                </div>`
+            );
+
+            newItem.append("<strong>" + tag.toUpperCase() + "</strong>", input, alignButtons);
+            $("#sortable").append(newItem);
+        }
+
+        function alignText(button, align) {
+            let listItem = $(button).closest("li");
+            listItem.attr("data-align", align);
+            listItem.find(".text-input").css("border", "2px solid black");
+            setTimeout(() => listItem.find(".text-input").css("border", "2px solid transparent"), 500);
+        }
+
+        $(function () {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+        });
+
+        function generatePDF() {
+            let content = "";
+            $("#sortable li").each(function () {
+                let tag = $(this).data("tag");
+                let text = $(this).find("input").val();
+                let align = $(this).attr("data-align");
+                if (text) {
+                    content += `<${tag} style='text-align: ${align};'>${text}</${tag}>`;
+                }
+            });
+            $("#pdfContent").val(content);
+            $("#pdfForm").submit();
+        }
+    </script>
+</body>
+</html>
