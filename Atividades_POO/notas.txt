@@ -1,0 +1,10 @@
+http://localhost/Pasta/public/postagens
+
+coloque o número do código que deseja mudar ou postar após a barra
+
+http://localhost/Pasta/public/postagens/1
+http://localhost/Pasta/public/postagens/2
+http://localhost/Pasta/public/postagens/3
+
+corpo json
+
