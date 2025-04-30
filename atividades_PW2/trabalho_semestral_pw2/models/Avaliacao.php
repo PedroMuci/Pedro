@@ -1,0 +1,2 @@
+<?php
+// Avaliação model
