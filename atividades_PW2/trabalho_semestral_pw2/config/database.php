@@ -1,9 +1,9 @@
 <?php
 
 $host = 'localhost';
-$dbname = 'historias_perdidas';
+$dbname = 'teste002';
 $user = 'postgres';
-$pass = 'postgres';
+$pass = 'ipdw8331';
 
 try {
     $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $pass);
