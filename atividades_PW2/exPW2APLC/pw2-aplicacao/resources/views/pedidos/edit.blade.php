@@ -8,17 +8,17 @@
       Editar Pedido
     </h2>
 
-    <form action="{{ route('pedidos.update',$pedido) }}" method="POST" class="space-y-5">
+    <form action="{{ route('pedidos.update', $pedido) }}" method="POST" class="space-y-5">
       @csrf @method('PUT')
 
       <div>
-        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
           Cliente
         </label>
         <select name="cliente_id" required
-                class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100">
+                class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700">
           @foreach($clientes as $c)
-            <option value="{{ $c->id }}" {{ $c->id == $pedido->cliente_id ? 'selected' : '' }}>
+            <option value="{{ $c->id }}" {{ $c->id == $pedido->cliente_id ? 'selected' : '' }} class="text-gray-900 dark:text-gray-100">
               {{ $c->nome }}
             </option>
           @endforeach
@@ -26,20 +26,20 @@
       </div>
 
       <div>
-        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
           Descrição
         </label>
         <input type="text" name="descricao" value="{{ $pedido->descricao }}" required
-               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100"
+               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700"
                placeholder="Descrição do pedido">
       </div>
 
       <div>
-        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
           Valor
         </label>
         <input type="number" step="0.01" name="valor" value="{{ $pedido->valor }}" required
-               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100"
+               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700"
                placeholder="Valor em R$">
       </div>
 
