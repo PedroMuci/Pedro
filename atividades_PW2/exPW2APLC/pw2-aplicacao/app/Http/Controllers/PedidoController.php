@@ -24,8 +24,10 @@ class PedidoController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
-        return view('pedidos.create', compact('clientes'));
+        $pedido = new Pedido(); 
+            return view('pedidos.create', compact('clientes', 'pedido'));
     }
+
 
     public function store(Request $request)
     {
