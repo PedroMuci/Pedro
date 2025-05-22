@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    public function index()
-    {
-    $clientes = Cliente::paginate(10); 
+    public function index(Request $request)
+{
+    $busca = $request->input('busca');
+    
+    $clientes = Cliente::when($busca, function ($query) use ($busca) {
+            return $query->where('nome', 'like', '%' . $busca . '%');
+        })
+        ->orderBy('nome')
+        ->paginate(10);
+    
     return view('clientes.index', compact('clientes'));
-    }
+}
 
 
     public function create()
