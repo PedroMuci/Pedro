@@ -1,2 +1,0 @@
-<?php
-// Verificação model
