@@ -17,10 +17,12 @@ class AuthController extends Controller
     public function login(Request $req)
     {
         $cred = $req->only('email','password');
+
         if (Auth::attempt($cred)) {
             return redirect()->route('menu');
         }
-        return back()->withErrors(['email'=>'Credenciais inválidas']);
+
+        return back()->with('erro_login', 'Usuário não encontrado ou senha incorreta.');
     }
 
     public function showRegister()

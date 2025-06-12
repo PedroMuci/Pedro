@@ -9,8 +9,13 @@ class Avaliacao extends Model
 {
     use HasFactory;
 
+   
+    protected $table = 'avaliacoes';
+
     protected $fillable = [
-        'user_id','postagem_id','nota'
+        'user_id',
+        'postagem_id',
+        'nota',
     ];
 
     public function postagem()

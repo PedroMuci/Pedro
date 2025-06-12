@@ -36,7 +36,9 @@
         <input type="text" name="palavra_chave2" placeholder="Palavra-chave 2" value="{{ old('palavra_chave2') }}">
         <input type="text" name="palavra_chave3" placeholder="Palavra-chave 3" value="{{ old('palavra_chave3') }}">
 
-        <button type="submit">Publicar</button>
+        <button type="submit" class="btn-acao" style="width:100%; margin-top:20px;">
+            Publicar
+        </button>
     </form>
 </div>
 @endsection

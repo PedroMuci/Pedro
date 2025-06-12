@@ -8,21 +8,21 @@ use App\Models\User;
 
 class PerfilController extends Controller
 {
-    // Menu de perfil com opções
+  
     public function index()
     {
         $user = Auth::user();
         return view('perfil.index', compact('user'));
     }
 
-    // Formulário de edição
+   
     public function edit()
     {
         $user = Auth::user();
         return view('perfil.edit', compact('user'));
     }
 
-    // Atualizar dados básicos
+  
     public function update(Request $req)
     {
         $req->validate([

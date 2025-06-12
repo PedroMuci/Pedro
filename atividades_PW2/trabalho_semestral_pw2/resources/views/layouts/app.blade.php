@@ -8,19 +8,15 @@
         body {
             margin:0; padding:0;
             font-family: Arial, sans-serif;
-            background: url('@yield('bg-url','https://i.imgur.com/Xn3zXUQ.png')') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+            background: url('{{ asset('images/fundo1.png') }}') no-repeat center top;
+            background-size: 2000px 1000px;
+            background-attachment: fixed;
 
-        header {
-            position: relative;
-            height: 60px;
-        }
+             } 
+        header { height:0; }
 
         main {
-            flex: 1;
+            flex:1;
             display:flex;
             flex-direction:column;
             align-items:center;
@@ -28,47 +24,28 @@
             padding:40px 20px;
             box-sizing:border-box;
         }
+        h1, h2, h3 { color:#3E2723; }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255,255,255,0.8);
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        footer:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            font-size:3em;
-            margin:0 0 10px;
-            color:#333;
-            text-align:center;
-        }
-
-        p.subtitle {
-            font-size:1.3em;
-            margin:0 0 40px;
-            color:#555;
-            text-align:center;
-            max-width:700px;
-            line-height:1.4;
-        }
-
-        button, input[type="submit"] {
+        button.btn-acao,
+        input[type="submit"].btn-acao,
+        a.btn-acao {
+            display: inline-block;
             background-color: #A33617;
             color: #FFFFFF;
             border: 2px solid #A33617;
             padding: 15px 0;
             font-size: 1.2em;
+            text-align: center;
+            text-decoration: none;
+            width: auto;
+            min-width: 120px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        button:hover, input[type="submit"]:hover {
+        button.btn-acao:hover,
+        input[type="submit"].btn-acao:hover,
+        a.btn-acao:hover {
             background-color: #FFFFFF;
             color: #A33617;
         }
@@ -88,7 +65,6 @@
             position:absolute;
             top:20px;
             right:20px;
-            padding:12px 20px;
         }
 
         .menu-buttons {
@@ -98,37 +74,43 @@
             width:350px;
             margin-top:20px;
         }
-
         .menu-buttons a {
             text-decoration:none;
-            text-align:center;
-            padding:18px 0;
-            font-size:1.4em;
-            color:#FFFFFF;
-            background-color:#A33617;
-            border:2px solid #A33617;
-            border-radius:8px;
-            transition: all 0.3s ease;
         }
 
-        .menu-buttons a:hover {
-            background-color:#FFFFFF;
-            color:#A33617;
+        footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            background-color: #A33617;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;      
         }
+
+        footer:hover 
+        {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
-<body>
+<body style="display:flex; flex-direction:column; min-height:100vh;">
     <header>
         @auth
-            <a href="{{ route('perfil') }}"><button class="login-btn">Perfil</button></a>
+            <a href="{{ route('perfil') }}"><button class="btn-acao login-btn">Perfil</button></a>
         @else
-            <a href="{{ route('login.show') }}"><button class="login-btn">Login</button></a>
+            <a href="{{ route('login.show') }}"><button class="btn-acao login-btn">Login</button></a>
         @endauth
     </header>
 
     <main>@yield('content')</main>
 
-    <footer onclick="window.location='{{ route('menu') }}'">
+    <footer onclick="location.href='{{ route('menu') }}'">
         Histórias Perdidas
     </footer>
 </body>

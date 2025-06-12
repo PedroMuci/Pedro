@@ -22,15 +22,12 @@ class AdminController extends Controller
         return back()->with('mensagem','Post aprovado.');
     }
 
-    public function devolverPostagem(Request $req,$id)
-    {
-        $req->validate(['mensagem_devolucao'=>'required']);
-        Postagem::find($id)->update([
-            'status'=>'devolvido',
-            'mensagem_devolucao'=>$req->mensagem_devolucao
-        ]);
-        return back()->with('mensagem','Post devolvido.');
-    }
+    public function editarPostagem($id)
+{
+    $post = Postagem::findOrFail($id);
+    return view('admin.edit_postagem', compact('post'));
+}
+
 
     public function excluirPostagem($id)
     {

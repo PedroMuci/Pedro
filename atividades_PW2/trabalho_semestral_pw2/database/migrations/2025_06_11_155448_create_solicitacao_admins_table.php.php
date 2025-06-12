@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSolicitacoesAdminsTable extends Migration
+class CreateSolicitacaoAdminsTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('solicitacoes_admins', function (Blueprint $table) {
+        Schema::create('solicitacao_admins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->enum('status',['pendente','aprovado','negado'])->default('pendente');
@@ -25,3 +25,4 @@ class CreateSolicitacoesAdminsTable extends Migration
         Schema::dropIfExists('solicitacoes_admins');
     }
 }
+

@@ -19,7 +19,7 @@
         <input type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="Nome" required>
         <input type="date" name="data_nascimento" value="{{ old('data_nascimento', $user->data_nascimento) }}">
 
-        <button type="submit">Salvar Alterações</button>
+            <button type="submit" class="btn-acao" style="width: 100%;">Salvar Alterações</button>
     </form>
 </div>
 @endsection

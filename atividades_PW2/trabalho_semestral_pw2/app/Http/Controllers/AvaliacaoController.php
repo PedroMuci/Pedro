@@ -16,7 +16,7 @@ class AvaliacaoController extends Controller
             ['user_id'=>Auth::id(),'postagem_id'=>$id],
             ['nota'=>$req->nota]
         );
-        // recalcula média
+
         $post = Postagem::find($id);
         $media = $post->avaliacoes()->avg('nota');
         $post->update(['nota_media'=>$media]);
