@@ -33,20 +33,30 @@ class AuthController extends Controller
     public function register(Request $req)
     {
         $req->validate([
-            'name'=>'required',
-            'email'=>'required|email|unique:users',
-            'password'=>'required|confirmed|min:6',
-            'data_nascimento'=>'nullable|date'
+            'name'             => 'required|string|max:255',
+            'email'            => 'required|email|unique:users,email',
+            'password'         => 'required|confirmed|min:6',
+            'data_nascimento'  => 'nullable|date',
+        ], [
+            'name.required'             => 'O campo nome é obrigatório.',
+            'email.required'            => 'O campo email é obrigatório.',
+            'email.email'               => 'Informe um email válido.',
+            'email.unique'              => 'Este email já está em uso.',
+            'password.required'         => 'O campo senha é obrigatório.',
+            'password.min'              => 'A senha deve conter no mínimo 6 caracteres.',
+            'password.confirmed'        => 'A senha e a confirmação não coincidem.',
+            'data_nascimento.date'      => 'Informe uma data de nascimento válida.',
         ]);
 
         User::create([
-            'name'=>$req->name,
-            'email'=>$req->email,
-            'password'=>Hash::make($req->password),
-            'data_nascimento'=>$req->data_nascimento
+            'name'             => $req->name,
+            'email'            => $req->email,
+            'password'         => Hash::make($req->password),
+            'data_nascimento'  => $req->data_nascimento,
         ]);
 
-        return redirect()->route('login.show')->with('mensagem','Cadastro realizado.');
+        return redirect()->route('login.show')
+                         ->with('mensagem', 'Cadastro realizado com sucesso.');
     }
 
     public function logout()
@@ -63,16 +73,20 @@ class AuthController extends Controller
     public function atualizarPerfil(Request $req)
     {
         $user = Auth::user();
+
         $req->validate([
-            'name'=>'required|string',
-            'data_nascimento'=>'nullable|date',
-            'tipo'=>'required|in:leitor,autor,admin'
+            'name'            => 'required|string|max:255',
+            'data_nascimento' => 'nullable|date',
+            'tipo'            => 'required|in:leitor,criador,admin',
+        ], [
+            'name.required'            => 'O campo nome é obrigatório.',
+            'data_nascimento.date'     => 'Informe uma data de nascimento válida.',
         ]);
 
         $user->update([
-            'name'=>$req->name,
-            'data_nascimento'=>$req->data_nascimento,
-            'tipo'=>$req->tipo
+            'name'             => $req->name,
+            'data_nascimento'  => $req->data_nascimento,
+            'tipo_conta'       => $req->tipo,
         ]);
 
         return back()->with('mensagem', 'Perfil atualizado com sucesso.');

@@ -23,5 +23,15 @@
     <p style="margin-top:20px;">
         <a href="{{ route('register') }}" style="color:#5D3A2E; text-decoration:none;">Cadastrar-se</a>
     </p>
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ route('menu') }}" class="btn-acao" style="
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;"
+        >
+            ← Voltar
+        </a>
+    </div>
 </div>
 @endsection

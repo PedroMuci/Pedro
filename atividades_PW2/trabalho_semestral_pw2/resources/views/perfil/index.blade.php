@@ -9,7 +9,7 @@
         <strong>Tipo de conta:</strong> {{ ucfirst($user->tipo_conta) }}
     </p>
 
-    @if($user->solicitacao_admin)
+    @if($pendente)
         <p style="color: #A33617; margin-bottom:20px;">Solicitação de admin pendente</p>
     @endif
 
@@ -23,18 +23,28 @@
             </form>
         @endif
 
-        @if($user->tipo_conta !== 'admin' && !$user->solicitacao_admin)
+        @if($user->tipo_conta !== 'admin' && !$pendente)
             <form method="POST" action="{{ route('perfil.solicitar.admin') }}" style="margin:0; width: 200px;">
                 @csrf
                 <button type="submit" class="btn-acao" style="width: 100%;">Solicitar Admin</button>
             </form>
         @endif
 
-        {{-- Botão de logout --}}
+        {{-- Logout --}}
         <form method="POST" action="{{ route('logout') }}" style="margin:0; width: 200px;">
             @csrf
             <button type="submit" class="btn-acao" style="width: 100%;">Sair</button>
         </form>
+    </div>
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ route('menu') }}" class="btn-acao" style="
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;"
+        >
+            ← Voltar
+        </a>
     </div>
 </div>
 @endsection

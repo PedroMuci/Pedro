@@ -21,5 +21,15 @@
 
             <button type="submit" class="btn-acao" style="width: 100%;">Salvar Alterações</button>
     </form>
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ route('perfil') }}" class="btn-acao" style="
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;"
+        >
+            ← Voltar
+        </a>
+    </div>
 </div>
 @endsection

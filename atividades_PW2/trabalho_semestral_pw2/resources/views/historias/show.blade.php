@@ -5,7 +5,6 @@
 @section('content')
 <div style="max-width:800px; margin:30px auto;">
 
-    {{-- Post Container --}}
     <div style="
         background: rgba(255,255,255,0.9);
         border: 2px solid #A33617;
@@ -15,7 +14,6 @@
         max-height: 80vh;
         overflow-y: auto;
     ">
-        {{-- Título --}}
         <h2 style="
             font-family: serif;
             font-size:2.5em;
@@ -30,7 +28,6 @@
             {{ $post->titulo }}
         </h2>
 
-        {{-- Texto --}}
         <p style="
             font-size:1.1em;
             line-height:1.6;
@@ -43,7 +40,6 @@
             {{ $post->texto }}
         </p>
 
-        {{-- Imagens --}}
         @foreach (['imagem1','imagem2','imagem3'] as $img)
             @if($post->$img)
                 <div style="margin:20px 0; text-align:center;">
@@ -61,21 +57,32 @@
             @endif
         @endforeach
 
-        {{-- Vídeo --}}
         @if($post->video)
+    @php
+        preg_match('/(?:v=|youtu\.be\/)([^&\?]+)/', $post->video, $v);
+        $videoId = $v[1] ?? null;
+    @endphp
+
+        @if($videoId)
             <div style="margin:20px 0; text-align:center;">
                 <iframe 
                     width="100%" 
                     height="315" 
-                    src="{{ $post->video }}" 
+                    src="https://www.youtube.com/embed/{{ $videoId }}" 
                     frameborder="0" 
                     allowfullscreen
-                    style="border:2px solid #A33617; border-radius:6px; display:block; margin:0 auto;"
-                ></iframe>
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    style="border:2px solid #A33617; border-radius:6px; display:block; margin:0 auto;">
+                </iframe>
             </div>
+            @else
+                <p style="text-align:center; color:#A33617;">
+                    Não foi possível carregar o vídeo.
+                </p>
+            @endif
         @endif
 
-        {{-- Música --}}
+
         @if($post->musica)
             <div style="
                 margin:20px 0;
@@ -84,17 +91,49 @@
                 border-radius:6px;
                 background: #fafafa;
             ">
-                <audio controls src="{{ $post->musica }}" style="width:100%;"></audio>
+                @if(\Illuminate\Support\Str::contains($post->musica, 'open.spotify.com'))
+                    <iframe
+                        src="{{ str_replace('track/','embed/track/',$post->musica) }}"
+                        width="100%" height="80" frameborder="0"
+                        allow="encrypted-media"
+                        style="border:0; border-radius:6px;">
+                    </iframe>
+
+                @elseif(
+                    \Illuminate\Support\Str::contains($post->musica, 'youtube.com') ||
+                    \Illuminate\Support\Str::contains($post->musica, 'youtu.be') ||
+                    \Illuminate\Support\Str::contains($post->musica, 'music.youtube.com')
+                )
+                    @php
+                        preg_match('/(?:v=|youtu\.be\/)([^&\?]+)/', $post->musica, $m);
+                        $videoId = $m[1] ?? null;
+                    @endphp
+                    @if($videoId)
+                        <iframe
+                            width="100%" height="315"
+                            src="https://www.youtube.com/embed/{{ $videoId }}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            style="border:0; border-radius:6px;">
+                        </iframe>
+                    @else
+                        <p style="text-align:center; color:#A33617;">
+                            Não foi possível carregar o player de música.
+                        </p>
+                    @endif
+
+                @else
+                    <audio controls src="{{ $post->musica }}" style="width:100%;"></audio>
+                @endif
             </div>
         @endif
 
-        {{-- Fonte e Palavras-chave --}}
         <div style="margin:20px 0; font-size:0.95em; color:#5D4037;">
             <p><strong>Fonte:</strong> {{ $post->fonte }}</p>
             <p><strong>Palavras-chave:</strong> {{ $post->palavra_chave1 }} {{ $post->palavra_chave2 }} {{ $post->palavra_chave3 }}</p>
         </div>
 
-        {{-- Avaliação --}}
         @auth
         <form method="POST" action="{{ route('avaliacoes.store', $post->id) }}" style="
             display:flex;
@@ -127,16 +166,16 @@
         @endauth
     </div>
 
-    {{-- Botão Voltar --}}
     <div style="text-align:center; margin-top:30px;">
-        <button 
-            type="button" 
-            class="btn-acao" 
-            onclick="history.back()"
-            style="width:150px;"
-        >
-            Voltar
-        </button>
+        <a href="{{ route('historias.index') }}" class="btn-acao" style="
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+        ">
+            ← Voltar
+        </a>
     </div>
+
 </div>
 @endsection

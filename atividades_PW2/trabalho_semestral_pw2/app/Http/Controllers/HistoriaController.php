@@ -7,9 +7,9 @@ use App\Models\Postagem;
 
 class HistoriaController extends Controller
 {
-public function index(Request $req)
+    public function index(Request $req)
 {
-    $q = Postagem::query(); 
+    $q = Postagem::withAvg('avaliacoes', 'nota');
 
     if ($req->filled('busca')) {
         $busca = $req->busca;
@@ -21,15 +21,14 @@ public function index(Request $req)
         });
     }
 
-    $posts = $q->get();
+        $posts = $q->get();
+            return view('historias.index', compact('posts'));
+        }
 
-    return view('historias.index', compact('posts'));
-}
-    
 
     public function show($id)
     {
         $post = Postagem::findOrFail($id);
-        return view('historias.show',compact('post'));
+        return view('historias.show', compact('post'));
     }
 }

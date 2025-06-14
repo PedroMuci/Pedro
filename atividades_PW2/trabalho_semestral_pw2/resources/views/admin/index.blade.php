@@ -119,5 +119,32 @@
             </div>
         @endforeach
     @endif
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ route('menu') }}" class="btn-acao" style="
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;"
+        >
+            ← Voltar
+        </a>
+    </div>
+    {{-- Botão para acessar Dashboard --}}
+<div style="text-align:center; margin-top:30px;">
+    <a href="{{ route('dashboard.index') }}" class="btn-acao">
+        Acessar Dashboard
+    </a>
+</div>
+
+<div style="text-align:center; margin-top:30px;">
+    <a href="{{ route('menu') }}" class="btn-acao" style="
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 999;">
+        ← Voltar
+    </a>
+</div>
+
 </div>
 @endsection
