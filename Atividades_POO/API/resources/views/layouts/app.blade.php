@@ -64,8 +64,8 @@
     main {
       flex: 1;
       padding: 2rem;
-      /* Aumenta o espaço horizontal disponível */
-      max-width: 1400px; /* ← ALTERE ESSE VALOR para ajustar largura máxima da área principal */
+
+      max-width: 1400px; 
       margin: auto;
       width: 100%;
     }
