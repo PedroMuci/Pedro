@@ -18,65 +18,34 @@
         @method('POST')
 
         <div class="form-grid">
-            <div class="form-group">
-                <label for="titulo">Título:</label>
-                <input type="text" name="titulo" id="titulo" required>
-            </div>
-
-            <div class="form-group">
-                <label for="texto">Texto:</label>
-                <textarea name="texto" id="texto" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="imagem1">Imagem 1 (URL):</label>
-                <input type="url" name="imagem1" id="imagem1">
-            </div>
-
-            <div class="form-group">
-                <label for="imagem2">Imagem 2 (URL):</label>
-                <input type="url" name="imagem2" id="imagem2">
-            </div>
-
-            <div class="form-group">
-                <label for="imagem3">Imagem 3 (URL):</label>
-                <input type="url" name="imagem3" id="imagem3">
-            </div>
-
-            <div class="form-group">
-                <label for="video">Vídeo (URL):</label>
-                <input type="url" name="video" id="video">
-            </div>
-
-            <div class="form-group">
-                <label for="musica">Música (URL):</label>
-                <input type="url" name="musica" id="musica">
-            </div>
-
-            <div class="form-group">
-                <label for="fonte">Fonte:</label>
-                <input type="text" name="fonte" id="fonte">
-            </div>
-
-            <div class="form-group">
-                <label for="palavra_chave1">Palavra-chave 1:</label>
-                <input type="text" name="palavra_chave1" id="palavra_chave1">
-            </div>
-
-            <div class="form-group">
-                <label for="palavra_chave2">Palavra-chave 2:</label>
-                <input type="text" name="palavra_chave2" id="palavra_chave2">
-            </div>
-
-            <div class="form-group">
-                <label for="palavra_chave3">Palavra-chave 3:</label>
-                <input type="text" name="palavra_chave3" id="palavra_chave3">
-            </div>
-
-            <div class="form-group">
-                <label for="user_id">ID do Usuário:</label>
-                <input type="number" name="user_id" id="user_id" required>
-            </div>
+            @foreach ([
+                'titulo' => 'Título',
+                'texto' => 'Texto',
+                'imagem1' => 'Imagem 1 (URL)',
+                'imagem2' => 'Imagem 2 (URL)',
+                'imagem3' => 'Imagem 3 (URL)',
+                'video' => 'Vídeo (URL)',
+                'musica' => 'Música (URL)',
+                'fonte' => 'Fonte',
+                'palavra_chave1' => 'Palavra-chave 1',
+                'palavra_chave2' => 'Palavra-chave 2',
+                'palavra_chave3' => 'Palavra-chave 3',
+                'user_id' => 'ID do Usuário'
+            ] as $field => $label)
+                <div class="form-group">
+                    <label for="{{ $field }}">{{ $label }}:</label>
+                    @if ($field === 'texto')
+                        <textarea name="{{ $field }}" id="{{ $field }}" rows="3"></textarea>
+                    @else
+                        <input
+                            type="{{ in_array($field, ['imagem1','imagem2','imagem3','video','musica']) ? 'url' : ( $field === 'user_id' ? 'number' : 'text') }}"
+                            name="{{ $field }}"
+                            id="{{ $field }}"
+                            {{ in_array($field, ['titulo', 'user_id']) ? 'required' : '' }}
+                        >
+                    @endif
+                </div>
+            @endforeach
         </div>
 
         <button type="submit" class="btn-submit">Salvar Postagem</button>
@@ -156,89 +125,6 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .usuario-container { margin-top: 2rem; }
-    .header-with-icon {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-    .header-with-icon img {
-        height: 64px;
-        width: auto;
-    }
-    .btn-primary {
-        background: #2563eb;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 1.5rem;
-    }
-    .form-hidden {
-        display: none;
-        margin-bottom: 2rem;
-        background: var(--card-bg);
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-    }
-    .form-group label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-    }
-    .btn-submit {
-        margin-top: 1rem;
-        padding: 0.75rem 1.5rem;
-        background: #10b981;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    table.usuarios-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-        background: var(--card-bg);
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    table.usuarios-table th,
-    table.usuarios-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-    }
-    h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-top: 3rem;
-    }
-    @media (max-width: 600px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
 
 <script>
     document.getElementById('toggle-form').addEventListener('click', function () {

@@ -66,7 +66,10 @@
                         <form action="{{ route('avaliacoes.destroy', $avaliacao->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir esta avaliação?')">Excluir</button>
+                            <button type="submit" class="btn-delete"
+                                onclick="return confirm('Tem certeza que deseja excluir esta avaliação?')">
+                                Excluir
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -74,107 +77,30 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .usuario-container { margin-top: 2rem; }
-    .header-with-icon {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-    .header-with-icon img {
-        height: 64px;
-        width: auto;
-    }
-    .btn-primary {
-        background: #2563eb;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 1.5rem;
-    }
-    .form-hidden {
-        display: none;
-        margin-bottom: 2rem;
-        background: var(--card-bg);
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-    }
-    .form-group label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    .form-group input {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-    }
-    .btn-submit {
-        margin-top: 1rem;
-        padding: 0.75rem 1.5rem;
-        background: #10b981;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    table.usuarios-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-        background: var(--card-bg);
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    table.usuarios-table th,
-    table.usuarios-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-    }
-    h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-top: 3rem;
-    }
-</style>
-
-<script>
-    document.getElementById('toggle-form').addEventListener('click', function () {
-        const form = document.getElementById('avaliacao-form');
-        form.classList.toggle('form-hidden');
-        form.reset();
-        document.getElementById('avaliacao_id').value = '';
-        form.action = '{{ route("avaliacoes.store") }}';
-        form.querySelector('input[name="_method"]').value = 'POST';
-    });
-
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function () {
-            const form = document.getElementById('avaliacao-form');
-            form.classList.remove('form-hidden');
-
-            form.nota.value = this.dataset.nota;
-            form.user_id.value = this.dataset.user_id;
-            form.postagem_id.value = this.dataset.postagem_id;
-
-            document.getElementById('avaliacao_id').value = this.dataset.id;
-            form.action = `/avaliacoes/${this.dataset.id}`;
-            form.querySelector('input[name="_method"]').value = 'PUT';
-        });
-    });
-</script>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('toggle-form').addEventListener('click', function () {
+    const f = document.getElementById('avaliacao-form');
+    f.classList.toggle('form-hidden');
+    f.reset();
+    document.getElementById('avaliacao_id').value = '';
+    f.action = '{{ route("avaliacoes.store") }}';
+    f.querySelector('input[name="_method"]').value = 'POST';
+});
+
+document.querySelectorAll('.btn-edit').forEach(button => {
+    button.addEventListener('click', function () {
+        const f = document.getElementById('avaliacao-form');
+        f.classList.remove('form-hidden');
+        f.nota.value = this.dataset.nota;
+        f.user_id.value = this.dataset.user_id;
+        f.postagem_id.value = this.dataset.postagem_id;
+        document.getElementById('avaliacao_id').value = this.dataset.id;
+        f.action = `/avaliacoes/${this.dataset.id}`;
+        f.querySelector('input[name="_method"]').value = 'PUT';
+    });
+});
+</script>
+@endpush

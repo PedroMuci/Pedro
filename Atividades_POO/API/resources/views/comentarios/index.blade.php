@@ -18,7 +18,7 @@
         @method('POST')
 
         <div class="form-grid">
-            <div class="form-group" style="grid-column: span 2;">
+            <div class="form-group">
                 <label for="conteudo">Conteúdo:</label>
                 <input type="text" name="conteudo" id="conteudo" required>
             </div>
@@ -66,7 +66,10 @@
                         <form action="{{ route('comentarios.destroy', $comentario->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este comentário?')">Excluir</button>
+                            <button type="submit" class="btn-delete"
+                                onclick="return confirm('Tem certeza que deseja excluir este comentário?')">
+                                Excluir
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -74,126 +77,30 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .usuario-container { margin-top: 2rem; }
-    .header-with-icon {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-    .header-with-icon img {
-        height: 64px;
-        width: auto;
-    }
-    .btn-primary {
-        background: #2563eb;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 1.5rem;
-    }
-    .form-hidden {
-        display: none;
-        margin-bottom: 2rem;
-        background: var(--card-bg, #fff);
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-    }
-    .form-group label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    .form-group input {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-    }
-    .btn-submit {
-        margin-top: 1rem;
-        padding: 0.75rem 1.5rem;
-        background: #10b981;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    table.usuarios-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-        background: var(--card-bg, #fff);
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    table.usuarios-table th,
-    table.usuarios-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color, #e2e8f0);
-    }
-    h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-top: 3rem;
-    }
-    .btn-edit {
-        background: #f59e0b;
-        color: white;
-        padding: 0.4rem 0.75rem;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-right: 4px;
-    }
-    .btn-delete {
-        background: #ef4444;
-        color: white;
-        padding: 0.4rem 0.75rem;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-</style>
-
-<script>
-    document.getElementById('toggle-form').addEventListener('click', function () {
-        const form = document.getElementById('comentario-form');
-        form.classList.toggle('form-hidden');
-        form.reset();
-        document.getElementById('comentario_id').value = '';
-        form.action = '{{ route("comentarios.store") }}';
-        form.querySelector('input[name="_method"]').value = 'POST';
-    });
-
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function () {
-            const form = document.getElementById('comentario-form');
-            form.classList.remove('form-hidden');
-
-            form.conteudo.value = this.dataset.conteudo;
-            form.user_id.value = this.dataset.user_id;
-            form.postagem_id.value = this.dataset.postagem_id;
-
-            document.getElementById('comentario_id').value = this.dataset.id;
-            form.action = `/comentarios/${this.dataset.id}`;
-            form.querySelector('input[name="_method"]').value = 'PUT';
-        });
-    });
-</script>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('toggle-form').addEventListener('click', function () {
+    const f = document.getElementById('comentario-form');
+    f.classList.toggle('form-hidden');
+    f.reset();
+    document.getElementById('comentario_id').value = '';
+    f.action = '{{ route("comentarios.store") }}';
+    f.querySelector('input[name="_method"]').value = 'POST';
+});
+
+document.querySelectorAll('.btn-edit').forEach(button => {
+    button.addEventListener('click', function () {
+        const f = document.getElementById('comentario-form');
+        f.classList.remove('form-hidden');
+        f.conteudo.value = this.dataset.conteudo;
+        f.user_id.value = this.dataset.user_id;
+        f.postagem_id.value = this.dataset.postagem_id;
+        document.getElementById('comentario_id').value = this.dataset.id;
+        f.action = `/comentarios/${this.dataset.id}`;
+        f.querySelector('input[name="_method"]').value = 'PUT';
+    });
+});
+</script>
+@endpush

@@ -14,7 +14,7 @@
 
     <form id="usuario-form" class="form-hidden" method="POST" action="{{ route('users.store') }}">
         @csrf
-        <input type="hidden" name="usuario_id" id="usuario_id">
+        <input type="hidden" name="user_id" id="user_id">
         @method('POST')
 
         <div class="form-grid">
@@ -42,6 +42,7 @@
                 </select>
             </div>
         </div>
+
         <button type="submit" class="btn-submit">Salvar Usuário</button>
     </form>
 
@@ -77,7 +78,10 @@
                         <form action="{{ route('users.destroy', $usuario->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</button>
+                            <button type="submit" class="btn-delete"
+                                onclick="return confirm('Tem certeza que deseja excluir este usuário?')">
+                                Excluir
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -85,144 +89,31 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .usuario-container {
-        margin-top: 2rem;
-    }
-
-    .header-with-icon {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .header-with-icon img {
-        height: 64px;
-        width: auto;
-    }
-
-    .btn-primary {
-        background: #2563eb;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-hidden {
-        display: none;
-        margin-bottom: 2rem;
-        background: var(--card-bg);
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .form-group label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-    }
-
-    .btn-submit {
-        margin-top: 1rem;
-        padding: 0.75rem 1.5rem;
-        background: #10b981;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    table.usuarios-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-        background: var(--card-bg);
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    table.usuarios-table th,
-    table.usuarios-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-top: 3rem;
-    }
-
-    @media (max-width: 600px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-
-<script>
-    document.getElementById('toggle-form').addEventListener('click', function () {
-        const form = document.getElementById('usuario-form');
-        form.classList.toggle('form-hidden');
-        form.reset();
-        document.getElementById('usuario_id').value = '';
-        form.action = '{{ route("users.store") }}';
-        const method = form.querySelector('input[name="_method"]');
-        if (method) {
-            method.value = 'POST';
-        }
-    });
-
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function () {
-            const form = document.getElementById('usuario-form');
-            form.classList.remove('form-hidden');
-
-            const id = this.dataset.id;
-            const name = this.dataset.name;
-            const email = this.dataset.email;
-            const nascimento = this.dataset.data_nascimento;
-            const tipo = this.dataset.tipo_conta;
-
-            document.getElementById('name').value = name;
-            document.getElementById('email').value = email;
-            document.getElementById('data_nascimento').value = nascimento;
-            document.getElementById('tipo_conta').value = tipo;
-            document.getElementById('usuario_id').value = id;
-
-            form.action = `/users/${id}`;
-            let method = form.querySelector('input[name="_method"]');
-            if (!method) {
-                method = document.createElement('input');
-                method.setAttribute('type', 'hidden');
-                method.setAttribute('name', '_method');
-                form.appendChild(method);
-            }
-            method.value = 'PUT';
-        });
-    });
-</script>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('toggle-form').addEventListener('click', function () {
+    const f = document.getElementById('usuario-form');
+    f.classList.toggle('form-hidden');
+    f.reset();
+    document.getElementById('user_id').value = '';
+    f.action = '{{ route("users.store") }}';
+    f.querySelector('input[name="_method"]').value = 'POST';
+});
+
+document.querySelectorAll('.btn-edit').forEach(button => {
+    button.addEventListener('click', function () {
+        const f = document.getElementById('usuario-form');
+        f.classList.remove('form-hidden');
+        f.name.value = this.dataset.name;
+        f.email.value = this.dataset.email;
+        f.data_nascimento.value = this.dataset.data_nascimento;
+        f.tipo_conta.value = this.dataset.tipo_conta;
+        document.getElementById('user_id').value = this.dataset.id;
+        f.action = `/users/${this.dataset.id}`;
+        f.querySelector('input[name="_method"]').value = 'PUT';
+    });
+});
+</script>
+@endpush
