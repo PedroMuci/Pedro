@@ -7,11 +7,22 @@ use Illuminate\Http\Request;
 
 class TimeController extends Controller
 {
-    public function index()
+ public function index(Request $request)
     {
-        $times = Time::all();
+        $query = Time::query();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_clube', 'ILIKE', "%{$search}%")
+                ->orWhere('apelido_clube', 'ILIKE', "%{$search}%");
+            });
+        }
+
+        $times = $query->orderBy('nome_clube')->get();
+
         return view('times.index', compact('times'));
     }
+
 
     public function create()
     {
@@ -23,7 +34,7 @@ class TimeController extends Controller
         $data = $request->validate([
             'nome_clube' => 'required|string|max:255',
             'apelido_clube' => 'nullable|string|max:255',
-            'escudo' => 'nullable|url', 
+            'escudo' => 'nullable|url',
             'ano_fundacao' => 'required|digits:4|integer|min:1800|max:' . date('Y'),
         ]);
 

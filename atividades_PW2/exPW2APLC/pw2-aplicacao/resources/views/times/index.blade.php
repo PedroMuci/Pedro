@@ -8,6 +8,19 @@
   <a href="{{ route('times.create') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded transition">+ Novo Time</a>
 </div>
 
+<form method="GET" action="{{ route('times.index') }}" class="mb-4 flex items-center gap-2">
+  <input 
+    type="text" 
+    name="search" 
+    value="{{ request('search') }}" 
+    placeholder="Buscar time..." 
+    class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full md:w-1/3"
+  >
+  <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
+    Buscar
+  </button>
+</form>
+
 @if(session('success'))
   <div class="mb-4 p-4 bg-green-500 text-white rounded">{{ session('success') }}</div>
 @endif

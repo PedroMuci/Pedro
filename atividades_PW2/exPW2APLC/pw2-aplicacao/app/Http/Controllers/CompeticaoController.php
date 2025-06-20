@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class CompeticaoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $competicoes = Competicao::with('times')->get();
+        $query = Competicao::with('times');
+
+        if ($search = $request->input('search')) {
+            $query->where('nome', 'ILIKE', "%{$search}%");
+        }
+
+        $competicoes = $query->orderBy('nome')->get();
+
         return view('competicoes.index', compact('competicoes'));
     }
 

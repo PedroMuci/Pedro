@@ -13,9 +13,16 @@ use Carbon\Carbon;
 
 class SimulacaoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $simulacoes = Simulacao::latest()->get();
+        $query = Simulacao::query();
+
+        if ($search = $request->input('search')) {
+            $query->where('nome_competicao', 'ILIKE', "%{$search}%");
+        }
+
+        $simulacoes = $query->orderByDesc('data_simulacao')->get();
+
         return view('simulacoes.index', compact('simulacoes'));
     }
 
@@ -40,20 +47,13 @@ class SimulacaoController extends Controller
         $countTimes = count($data['times']);
 
         if ($competicao->tipo === 'liga' && $countTimes % 2 !== 0) {
-            return back()
-                ->with('error', 'Para liga, é necessário número par de times.')
-                ->withInput();
+            return back()->with('error', 'Para liga, é necessário número par de times.')->withInput();
         }
 
-        if ($competicao->tipo === 'copa'
-            && ! in_array($countTimes, [2,4,8,16,32])
-        ) {
-            return back()
-                ->with('error', 'Número de times inválido para copa.')
-                ->withInput();
+        if ($competicao->tipo === 'copa' && !in_array($countTimes, [2, 4, 8, 16, 32])) {
+            return back()->with('error', 'Número de times inválido para copa.')->withInput();
         }
 
- 
         $simulacao = Simulacao::create([
             'competicao_id'    => $competicao->id,
             'nome_competicao'  => $competicao->nome,
@@ -64,7 +64,6 @@ class SimulacaoController extends Controller
             'data_simulacao'   => Carbon::now(),
         ]);
 
-      
         foreach ($data['times'] as $timeId) {
             $time = Time::findOrFail($timeId);
 
@@ -75,7 +74,6 @@ class SimulacaoController extends Controller
                 'escudo_time'  => $time->escudo,
             ]);
 
-        
             if ($competicao->tipo === 'liga') {
                 SimulacaoLigaTime::create([
                     'simulacao_id'  => $simulacao->id,
@@ -87,32 +85,26 @@ class SimulacaoController extends Controller
             }
         }
 
-        return redirect()
-            ->route('simulacoes.index')
-            ->with('success', 'Simulação criada com sucesso.');
+        return redirect()->route('simulacoes.index')->with('success', 'Simulação criada com sucesso.');
     }
 
-public function show(Simulacao $simulacao)
-{
-  
-    $simulacao->load([
-        'simulacaoTimes',     
-        'simulacaoLigaTimes', 
-        'jogos.timeA',        
-        'jogos.timeB',        
-    ]);
+    public function show(Simulacao $simulacao)
+    {
+        $simulacao->load([
+            'simulacaoTimes',
+            'simulacaoLigaTimes',
+            'jogos.timeA',
+            'jogos.timeB',
+        ]);
 
-    return view('simulacoes.show', compact('simulacao'));
-}
-
+        return view('simulacoes.show', compact('simulacao'));
+    }
 
     public function edit(Simulacao $simulacao)
     {
-        $competicoes      = Competicao::all();
-        $todosOsTimes     = Time::all();
-        $timesSelecionados = $simulacao
-            ->simulacaoTimes
-            ->pluck('time_id');
+        $competicoes       = Competicao::all();
+        $todosOsTimes      = Time::all();
+        $timesSelecionados = $simulacao->simulacaoTimes->pluck('time_id');
 
         return view('simulacoes.edit', compact(
             'simulacao',
@@ -135,20 +127,13 @@ public function show(Simulacao $simulacao)
         $countTimes = count($data['times']);
 
         if ($competicao->tipo === 'liga' && $countTimes % 2 !== 0) {
-            return back()
-                ->with('error', 'Para liga, é necessário número par de times.')
-                ->withInput();
+            return back()->with('error', 'Para liga, é necessário número par de times.')->withInput();
         }
 
-        if ($competicao->tipo === 'copa'
-            && ! in_array($countTimes, [2,4,8,16,32])
-        ) {
-            return back()
-                ->with('error', 'Número de times inválido para copa.')
-                ->withInput();
+        if ($competicao->tipo === 'copa' && !in_array($countTimes, [2, 4, 8, 16, 32])) {
+            return back()->with('error', 'Número de times inválido para copa.')->withInput();
         }
 
-        // Atualiza dados principais
         $simulacao->update([
             'competicao_id'    => $competicao->id,
             'nome_competicao'  => $competicao->nome,
@@ -159,12 +144,10 @@ public function show(Simulacao $simulacao)
             'data_simulacao'   => Carbon::now(),
         ]);
 
-        // Limpa registros antigos
         $simulacao->jogos()->delete();
         SimulacaoTime::where('simulacao_id', $simulacao->id)->delete();
         SimulacaoLigaTime::where('simulacao_id', $simulacao->id)->delete();
 
-        // Reinsere
         foreach ($data['times'] as $timeId) {
             $time = Time::findOrFail($timeId);
 
@@ -186,16 +169,12 @@ public function show(Simulacao $simulacao)
             }
         }
 
-        return redirect()
-            ->route('simulacoes.index')
-            ->with('success', 'Simulação atualizada com sucesso.');
+        return redirect()->route('simulacoes.index')->with('success', 'Simulação atualizada com sucesso.');
     }
 
     public function destroy(Simulacao $simulacao)
     {
         $simulacao->delete();
-        return redirect()
-            ->route('simulacoes.index')
-            ->with('success', 'Simulação excluída com sucesso.');
+        return redirect()->route('simulacoes.index')->with('success', 'Simulação excluída com sucesso.');
     }
 }
