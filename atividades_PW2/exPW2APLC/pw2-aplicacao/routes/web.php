@@ -1,20 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CompeticaoController;
+use App\Http\Controllers\TimeController;
+use App\Http\Controllers\SimulacaoController;
 
-Route::get('/', function () {
-    return redirect()->route('login');  // Vai direto para login
-});
 
-require __DIR__.'/auth.php'; // Rotas do Breeze (login, register, logout)
+Route::get('/', fn() => redirect()->route('menu'));
+
+require __DIR__.'/auth.php'; 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 
-    Route::resource('clientes', ClienteController::class);
-    Route::resource('pedidos', PedidoController::class);
+    Route::get('/menu', fn() => view('menu'))->name('menu');
+
+    Route::resource('competicoes', CompeticaoController::class)
+        ->parameters(['competicoes' => 'competicao']);
+
+    Route::resource('times', TimeController::class);
+
+    Route::resource('simulacoes', SimulacaoController::class)
+        ->parameters(['simulacoes' => 'simulacao']);
+        
 });
