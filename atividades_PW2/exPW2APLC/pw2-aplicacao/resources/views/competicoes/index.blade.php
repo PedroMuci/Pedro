@@ -14,10 +14,10 @@
     name="search" 
     value="{{ request('search') }}" 
     placeholder="Buscar competição..." 
-    class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full md:w-1/3"
+    class="input w-full sm:w-64"
   >
-  <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-    Buscar
+  <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">
+    🔍
   </button>
 </form>
 
