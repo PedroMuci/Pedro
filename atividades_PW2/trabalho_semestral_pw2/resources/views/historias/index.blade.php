@@ -53,7 +53,6 @@
         }
     </style>
 
-    {{-- Cabeçalho --}}
     <header class="historia-header">
         <h1 style="
             font-family: serif;
@@ -102,7 +101,6 @@
                 @endphp
 
                 <div class="historia-card">
-                    {{-- Nota média ou N/A --}}
                     <div class="historia-nota">
                         @if(is_null($media))
                             <strong style="color:#A33617;">N/A</strong>
@@ -123,7 +121,6 @@
                     @endif
 
                     <div class="historia-card-content">
-                        {{-- Título --}}
                         <h3 style="
                             font-size:1.2em;
                             margin:0 0 10px;
@@ -140,7 +137,6 @@
                             {{ \Illuminate\Support\Str::limit($post->texto, 80, '...') }}
                         </p>
 
-                        {{-- Botão Ler Mais --}}
                         <button
                             type="button"
                             class="btn-acao"
@@ -155,7 +151,6 @@
         </div>
     @endif
 
-    {{-- Voltar ao menu --}}
     <div style="text-align:center; margin-top:30px;">
         <a href="{{ route('menu') }}" class="btn-acao" style="
             position: fixed;
@@ -180,3 +175,5 @@
         });
     </script>
 @endsection
+
+

@@ -28,7 +28,7 @@
             {{ $post->titulo }}
         </h2>
 
-        <p style="
+        <div style="
             font-size:1.1em;
             line-height:1.6;
             color:#5D4037;
@@ -37,8 +37,8 @@
             word-break: break-word;
             overflow-wrap: break-word;
         ">
-            {{ $post->texto }}
-        </p>
+            {!! nl2br(e($post->texto)) !!}
+        </div>
 
         @foreach (['imagem1','imagem2','imagem3'] as $img)
             @if($post->$img)
@@ -58,30 +58,29 @@
         @endforeach
 
         @if($post->video)
-    @php
-        preg_match('/(?:v=|youtu\.be\/)([^&\?]+)/', $post->video, $v);
-        $videoId = $v[1] ?? null;
-    @endphp
+            @php
+                preg_match('/(?:v=|youtu\.be\/)([^&\?]+)/', $post->video, $v);
+                $videoId = $v[1] ?? null;
+            @endphp
 
-        @if($videoId)
-            <div style="margin:20px 0; text-align:center;">
-                <iframe 
-                    width="100%" 
-                    height="315" 
-                    src="https://www.youtube.com/embed/{{ $videoId }}" 
-                    frameborder="0" 
-                    allowfullscreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    style="border:2px solid #A33617; border-radius:6px; display:block; margin:0 auto;">
-                </iframe>
-            </div>
+            @if($videoId)
+                <div style="margin:20px 0; text-align:center;">
+                    <iframe 
+                        width="100%" 
+                        height="315" 
+                        src="https://www.youtube.com/embed/{{ $videoId }}" 
+                        frameborder="0" 
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        style="border:2px solid #A33617; border-radius:6px; display:block; margin:0 auto;">
+                    </iframe>
+                </div>
             @else
                 <p style="text-align:center; color:#A33617;">
                     Não foi possível carregar o vídeo.
                 </p>
             @endif
         @endif
-
 
         @if($post->musica)
             <div style="
