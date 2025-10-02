@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'second.dart'; // importando o second.dart
+import 'second.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Imagem da web
+
             Image.network(
               "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
               width: double.infinity,
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Row interativo com alerta antes de navegar
+ 
             InkWell(
               onTap: () {
                 showDialog(
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // Texto explicativo
+
             Container(
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.all(20),

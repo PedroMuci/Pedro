@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// 🔥 Gradiente escuro para o shimmer
+
 const _shimmerGradient = LinearGradient(
   colors: [Color(0xFF222222), Color(0xFF444444), Color(0xFF222222)],
   stops: [0.1, 0.3, 0.4],
@@ -9,7 +9,7 @@ const _shimmerGradient = LinearGradient(
   tileMode: TileMode.clamp,
 );
 
-/// Essa é a tela que será exibida em '/second'
+
 class SecondPage extends StatefulWidget {
   const SecondPage({super.key});
 
@@ -30,7 +30,7 @@ class _SecondPageState extends State<SecondPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Segunda Página - Shimmer")),
-      backgroundColor: Colors.black, // fundo escuro
+      backgroundColor: Colors.black, 
       body: Shimmer(
         linearGradient: _shimmerGradient,
         child: ListView(
@@ -85,7 +85,7 @@ class _SecondPageState extends State<SecondPage> {
   }
 }
 
-/// ---------------- SHIMMER CORE ----------------
+
 class Shimmer extends StatefulWidget {
   static ShimmerState? of(BuildContext context) {
     return context.findAncestorStateOfType<ShimmerState>();
@@ -220,9 +220,9 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
   }
 }
 
-/// ---------------- LIST ITEMS CUSTOMIZADOS ----------------
 
-/// Triângulo sem libs externas
+
+
 class TriangleListItem extends StatelessWidget {
   final bool isLoading;
   const TriangleListItem({super.key, required this.isLoading});
@@ -252,9 +252,9 @@ class _TriangleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path()
-      ..moveTo(size.width / 2, 0) // topo
-      ..lineTo(0, size.height) // canto esquerdo
-      ..lineTo(size.width, size.height) // canto direito
+      ..moveTo(size.width / 2, 0) 
+      ..lineTo(0, size.height) 
+      ..lineTo(size.width, size.height) 
       ..close();
     return path;
   }
@@ -263,7 +263,6 @@ class _TriangleClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
 
-/// Card igual ao exemplo, mas placeholders escuros
 class CardListItem extends StatelessWidget {
   const CardListItem({super.key, required this.isLoading});
   final bool isLoading;
