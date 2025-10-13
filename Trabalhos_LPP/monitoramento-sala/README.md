@@ -1,6 +1,10 @@
+
+
 # 🎓 Monitoramento de Sala de Aula — Programação Orientada a Eventos
 
-> Projeto desenvolvido para a disciplina de **Linguagem de Programação e Paradigmas**.
+> Projeto desenvolvido para a disciplina de **Linguagens de Programação e Paradigmas**.
+> Tema: **Aplicação Orientada a Eventos com Node.js, Express, Socket.IO e React**
+
 ---
 
 ## 🧠 Descrição do Projeto
@@ -13,6 +17,12 @@ O sistema simula o **ambiente de uma sala de aula conectada**, onde:
 * Todos os participantes veem atualizações automaticamente — sem precisar recarregar a página.
 
 💡 Caso um aluno entre **5 minutos após o início da aula**, o sistema o marca como **atrasado**.
+
+A aplicação conta com uma **tela inicial de seleção de papel**, onde o usuário escolhe se deseja acessar como **Professor** ou **Aluno**.
+Cada papel tem sua própria interface:
+
+* O **Professor** tem acesso aos controles da aula, aos logs e à lista de alunos presentes.
+* O **Aluno** pode marcar presença, visualizar os logs e ver os colegas que já estão presentes.
 
 ---
 
@@ -29,9 +39,10 @@ monitoramento-sala/
     ├── src/
     │   ├── App.jsx                → Lógica principal e integração com o servidor
     │   └── components/            → Componentes da interface
-    │        ├── ProfessorPanel.jsx  → Controles do professor (iniciar/encerrar aula, avisos)
-    │        ├── AlunoPanel.jsx      → Interface do aluno (marcar presença)
-    │        └── LogPanel.jsx        → Exibição dos eventos e alunos presentes
+    │        ├── RoleSelector.jsx      → Tela inicial para escolher entre Professor e Aluno
+    │        ├── ProfessorPanel.jsx    → Controles do professor (iniciar/encerrar aula, avisos)
+    │        ├── AlunoPanel.jsx        → Interface do aluno (marcar presença)
+    │        └── LogPanel.jsx          → Exibição dos eventos e alunos presentes
 ```
 
 ---
@@ -56,8 +67,6 @@ git clone https://github.com/PedroMuci/Pedro/tree/main/Trabalhos_LPP/monitoramen
 cd Trabalhos_LPP
 cd monitoramento-sala
 ```
-
-*(substitua `usuario` pelo seu nome de usuário no GitHub caso publique o projeto)*
 
 ---
 
@@ -97,18 +106,24 @@ Acesse esse link no navegador para abrir o sistema.
 
 ---
 
-### 4️⃣ Testar a Comunicação em Tempo Real
+### 4️⃣ Testar o Sistema em Tempo Real
 
-1. Abra **duas abas** no navegador (uma como professor, outra como aluno).
-2. Na aba do professor:
+Ao acessar o link do frontend, será exibida uma **tela inicial com duas opções**:
+**👨‍🏫 Sou Professor** e **🎓 Sou Aluno**.
 
-   * Clique em **Iniciar Aula**.
-   * Envie um aviso.
-3. Na aba do aluno:
+Escolha o papel desejado para acessar a interface correspondente:
 
-   * Digite o nome e clique em **Marcar Presença**.
-4. Observe:
+#### 👨‍🏫 Professor
 
-   * Os eventos e logs são atualizados **em tempo real** nas duas abas.
-   * Se o aluno entrar 5 minutos depois, aparecerá no log:
-     `⚠️ Pedro chegou atrasado.`
+* Clique em **Iniciar Aula** para liberar as presenças.
+* Envie avisos para todos os alunos conectados.
+* Acompanhe o log e a lista de alunos presentes.
+
+#### 🎓 Aluno
+
+* Digite seu nome e clique em **Marcar Presença**.
+* Caso entre 5 minutos após o início, aparecerá no log:
+  `⚠️ [Nome] chegou atrasado.`
+* Visualize o log e os alunos que já marcaram presença.
+
+
