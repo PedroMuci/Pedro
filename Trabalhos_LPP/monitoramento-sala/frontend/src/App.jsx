@@ -12,7 +12,7 @@ export default function App() {
   const [aulaAtiva, setAulaAtiva] = useState(false);
   const [presentes, setPresentes] = useState([]);
   const [log, setLog] = useState([]);
-  const [papel, setPapel] = useState(null); // "professor" | "aluno" | null
+  const [papel, setPapel] = useState(null); 
 
   const addLog = (msg) =>
     setLog((p) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...p]);
@@ -52,7 +52,7 @@ export default function App() {
     return () => socket.removeAllListeners();
   }, []);
 
-  // Se ainda não escolheu papel, mostra tela inicial
+
   if (!papel) {
     return (
       <div style={container}>
@@ -61,7 +61,6 @@ export default function App() {
     );
   }
 
-  // Painel do Professor
   if (papel === "professor") {
     return (
       <div style={container}>
@@ -84,7 +83,6 @@ export default function App() {
     );
   }
 
-  // Painel do Aluno
   return (
     <div style={container}>
       <div style={card}>
@@ -106,7 +104,6 @@ export default function App() {
   );
 }
 
-// 🎨 Estilos
 const container = {
   display: "flex",
   justifyContent: "center",
